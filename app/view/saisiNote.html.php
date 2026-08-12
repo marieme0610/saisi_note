@@ -183,7 +183,7 @@ $user = $_SESSION['userConnect'];
   .eleve-id{font-size:12.5px;color:var(--grey);margin-top:1px;}
 
   .grade-input{
-    width:64px;text-align:center;font-family:inherit;font-weight:700;font-size:14.5px;color:var(--ink);
+    width:70px;text-align:center;font-family:inherit;font-weight:700;font-size:14.5px;color:var(--ink);
     background:var(--card);border:1px solid var(--border);border-radius:9px;padding:9px 6px;
   }
   .grade-input.comp{background:var(--green-bg);border-color:#CFE7DA;}
@@ -339,6 +339,13 @@ $user = $_SESSION['userConnect'];
     </form>
 
   <div class="table-card">
+    <?php if (!empty($notes) && $notes[0]['statut'] === 'NOT_ENSEIGNEE'): ?>
+
+    <div>
+        Cette matière n'est pas enseignée dans cette classe.
+    </div>
+
+<?php else: ?>
     <table>
       <thead>
         <tr>
@@ -352,11 +359,29 @@ $user = $_SESSION['userConnect'];
       </thead>
       <tbody id="tbody">
         <!-- lignes générées par JS -->
+          <?php foreach ($notes as $note): ?>
+            <tr>
+           <td>
+              <div class="eleve-name"><?=$note['nomcomplet']?></div>
+              <div class="eleve-id"><?=$note['matricule']?></div>
+            </div>
+          </div>
+        </td>
+        <td><input class="grade-input" type="number" value="<?=$note['devoir1']?>" ></td>
+        <td><input class="grade-input" type="number" value="<?=$note['devoir2']?>" ></td>
+        <td><input class="grade-input comp" type="number" value="<?=$note['composition']?>" ></td>
+        <td><span class="moyenne-val" ><?=$note['moyenne']?></span></td>
+        <td><span class="pill"><?=$note['appreciation']?></span></td>
+     
+          </tr>
+        <?php endforeach; ?>
+
       </tbody>
       <tfoot>
         <tr><td colspan="6">Navigation clavier disponible · valeurs limitées de 0 à 20</td></tr>
       </tfoot>
     </table>
+    <?php endif; ?>
   </div>
 
 </div>
@@ -406,22 +431,7 @@ $user = $_SESSION['userConnect'];
     students.forEach((s, i) => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>
-          <div class="eleve-cell">
-            <div class="idx" style="display:inline-block;width:18px;">${i+1}</div>
-            <div class="avatar">${initials(s.name)}</div>
-            <div>
-              <div class="eleve-name">${s.name}</div>
-              <div class="eleve-id">${s.id}</div>
-            </div>
-          </div>
-        </td>
-        <td><input class="grade-input" type="number" min="0" max="20" step="0.5" value="${s.d1}" data-field="d1" data-idx="${i}"></td>
-        <td><input class="grade-input" type="number" min="0" max="20" step="0.5" value="${s.d2}" data-field="d2" data-idx="${i}"></td>
-        <td><input class="grade-input comp" type="number" min="0" max="20" step="0.5" value="${s.comp}" data-field="comp" data-idx="${i}"></td>
-        <td><span class="moyenne-val" data-moy="${i}"></span></td>
-        <td><span class="pill" data-app="${i}"><span class="pdot"></span><span class="app-label"></span></span></td>
-      `;
+         `;
       tbody.appendChild(tr);
     });
     updateAll();
