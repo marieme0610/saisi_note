@@ -137,7 +137,7 @@ function getNotesClasse(int $id_classe, int $id_matiere, int $id_periode)
             NULL,
             NULL,
             NULL,
-            'NOT_ENSEIGNEE'
+            'Cette matiere n''est pas enseigner dans cette classe'
 
         WHERE NOT EXISTS (
             SELECT 1

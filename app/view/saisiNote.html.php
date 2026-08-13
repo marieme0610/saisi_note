@@ -4,6 +4,7 @@ $matieres = $matieres ?? [];
 $periodes = $periodes ?? [];
 $moyenne = $moyenne ?? 0;
 $user = $_SESSION['userConnect'];
+var_dump($user);
 // dd($moyenne);
 
 
@@ -30,7 +31,8 @@ $user = $_SESSION['userConnect'];
     --green-bg:#E7F3EB;
     --green-bg-strong:#DCEEE3;
     --amber:#B8860B;
-    --shadow: 0 1px 2px rgba(20,25,20,0.04), 0 8px 24px -12px rgba(20,25,20,0.10);
+    --red:#ee0b0b;
+    --shadow: 0 1px 2px rgba(25, 20, 20, 0.04), 0 8px 24px -12px rgba(20,25,20,0.10);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -110,6 +112,9 @@ $user = $_SESSION['userConnect'];
   .btn-primary:disabled{opacity:.55;cursor:default;}
   .btn-validate{
     background:var(--green);color:#fff;
+  }
+  .btn-invalidate{
+    background:var(--red);color:#fff;
   }
   .btn-validate:hover{background:var(--green-dark);}
   .btn-validate.is-valid{background:var(--green-bg);color:var(--green-dark);border:1px solid #BFE0CC;}
@@ -254,9 +259,11 @@ $user = $_SESSION['userConnect'];
       <div class="avatar-user">FS</div>
       <div class="user-meta">
         <div class="user-name"><?=$user['prenom'].' '.$user['nom']?></div>
-        <div class="user-role"><?=$user['nom_role']?></div>
+        <div class="user-role"><?=$user['nom_role']?></div>         
       </div>
-      <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <a href="http://localhost:8000/logout" style="text-decoration:none" class="btn btn-invalidate" id="validateBtn" type="submit">
+        Deconnexion
+       </a>
     </div>
   </div>
 </header>
@@ -339,10 +346,10 @@ $user = $_SESSION['userConnect'];
     </form>
 
   <div class="table-card">
-    <?php if (!empty($notes) && $notes[0]['statut'] === 'NOT_ENSEIGNEE'): ?>
+    <?php if (!empty($notes) && $notes[0]['statut'] === "Cette matiere n'est pas enseigner dans cette classe"): ?>
 
     <div>
-        Cette matière n'est pas enseignée dans cette classe.
+        <?=$notes[0]['statut']?>
     </div>
 
 <?php else: ?>

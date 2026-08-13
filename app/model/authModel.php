@@ -3,7 +3,7 @@ require_once(dirname(__DIR__)."/core/database.php");
 function getInfoUser(string $email){
     $pdo = connexionDB();
     $sql = "
-        SELECT u.mot_de_passe,r.* ,a.annee_interval FROM utilisateurs u
+        SELECT u.*,r.* ,a.annee_interval FROM utilisateurs u
         INNER JOIN roles r 
         ON r.id = u.role_id INNER JOIN evaluations ev
         ON u.id = ev.utilisateur_id  INNER JOIN inscriptions i ON i.id = ev.inscription_id INNER JOIN anneScolaires a 
